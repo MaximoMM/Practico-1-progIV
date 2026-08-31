@@ -195,8 +195,7 @@ export function transformar<T, R>(
     elementos: T[],
     callback: (elemento: T) => R
 ): R[] {
-    // TODO
-    throw new Error("Implementar");
+    return elementos.map(callback);
 }
 
 // -----------------------------------------------------------------------------
@@ -212,8 +211,7 @@ export function filtrar<T>(
     elementos: T[],
     callback: (elemento: T) => boolean
 ): T[] {
-    // TODO
-    throw new Error("Implementar");
+    return elementos.filter(callback);
 }
 
 // -----------------------------------------------------------------------------
@@ -227,8 +225,7 @@ export function buscar<T>(
     elementos: T[],
     callback: (elemento: T) => boolean
 ): T | undefined {
-    // TODO
-    throw new Error("Implementar");
+    return elementos.find(callback);
 }
 
 // -----------------------------------------------------------------------------
@@ -244,8 +241,7 @@ export function calcularTotal(
     alumnos: Alumno[],
     callback: (alumno: Alumno) => number
 ): number {
-    // TODO
-    throw new Error("Implementar");
+    return alumnos.reduce((total, alumno) => total + callback(alumno), 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -266,8 +262,13 @@ export function calcularTotal(
 export function agruparPorCiudad(
     alumnos: Alumno[]
 ): Record<string, Alumno[]> {
-    // TODO
-    throw new Error("Implementar");
+    return alumnos.reduce((agrupados, alumno) => {
+        const ciudad = alumno.ciudad;
+        const grupo = agrupados[ciudad] || [];
+        grupo.push(alumno);
+        agrupados[ciudad] = grupo;
+        return agrupados;
+    }, {} as Record<string, Alumno[]>);
 }
 
 // -----------------------------------------------------------------------------
@@ -293,8 +294,27 @@ export interface Estadisticas {
 export function obtenerEstadisticas(
     alumnos: Alumno[]
 ): Estadisticas {
-    // TODO
-    throw new Error("Implementar");
+    const cantidadTotal = alumnos.length;
+    const cantidadAprobados = alumnos.filter(a => a.nota >= 6).length;
+    const cantidadDesaprobados = cantidadTotal - cantidadAprobados;
+    const promedio = cantidadTotal === 0 
+        ? 0 
+        : alumnos.reduce((acc, a) => acc + a.nota, 0) / cantidadTotal;
+    
+    let mejorAlumno: Alumno | undefined = undefined;
+    if (cantidadTotal > 0) {
+        mejorAlumno = alumnos.reduce((mejor, actual) => 
+            actual.nota > mejor.nota ? actual : mejor
+        );
+    }
+
+    return {
+        cantidadTotal,
+        cantidadAprobados,
+        cantidadDesaprobados,
+        promedio,
+        mejorAlumno
+    };
 }
 
 // -----------------------------------------------------------------------------
@@ -315,5 +335,5 @@ export function obtenerEstadisticas(
 // console.log(sumarEdades(alumnos));
 // console.log(obtenerAlumnosDeCiudad(alumnos, "Bahía Blanca").length);
 // console.log(calcularPromedioPorCiudad(alumnos, "Bahía Blanca"));
-// console.log(agruparPorCiudad(alumnos));
-// console.log(obtenerEstadisticas(alumnos));
+console.log(agruparPorCiudad(alumnos));
+console.log(obtenerEstadisticas(alumnos));
