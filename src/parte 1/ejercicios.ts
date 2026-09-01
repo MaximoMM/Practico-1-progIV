@@ -103,11 +103,10 @@ export function buscarPorLegajo(
 // Buscar el primer alumno cuyo nombre coincida con el recibido.
 // La comparación debe ser exacta.
 export function buscarPorNombre(
-    alumnos: Alumno[],
-    nombre: string
+alumnos: Alumno[],
+nombre: string
 ): Alumno | undefined {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.find(alumno => alumno.nombre === nombre);
 }
 
 // -----------------------------------------------------------------------------
@@ -116,8 +115,7 @@ export function buscarPorNombre(
 // Devolver true si existe al menos un alumno con nota menor a 6.
 // Resolver utilizando some.
 export function existeDesaprobado(alumnos: Alumno[]): boolean {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.some(alumno => alumno.nota < 6);
 }
 
 // -----------------------------------------------------------------------------
@@ -126,8 +124,7 @@ export function existeDesaprobado(alumnos: Alumno[]): boolean {
 // Devolver true solamente si todos los alumnos tienen nota mayor o igual a 6.
 // Resolver utilizando every.
 export function todosAprobaron(alumnos: Alumno[]): boolean {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.every(alumno => alumno.nota >= 6);
 }
 
 // -----------------------------------------------------------------------------
@@ -136,8 +133,7 @@ export function todosAprobaron(alumnos: Alumno[]): boolean {
 // Devolver la cantidad de alumnos aprobados.
 // Resolver utilizando filter y length.
 export function cantidadAprobados(alumnos: Alumno[]): number {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.filter(alumno => alumno.nota >= 6).length;
 }
 
 // -----------------------------------------------------------------------------
@@ -146,8 +142,7 @@ export function cantidadAprobados(alumnos: Alumno[]): number {
 // Calcular la suma de las edades de todos los alumnos.
 // Resolver utilizando reduce.
 export function sumarEdades(alumnos: Alumno[]): number {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.reduce((acumulador, alumno) => acumulador + alumno.edad, 0);
 }
 
 // -----------------------------------------------------------------------------
@@ -155,11 +150,10 @@ export function sumarEdades(alumnos: Alumno[]): number {
 // -----------------------------------------------------------------------------
 // Devolver los alumnos que pertenezcan a la ciudad recibida.
 export function obtenerAlumnosDeCiudad(
-    alumnos: Alumno[],
-    ciudad: string
+alumnos: Alumno[],
+ciudad: string
 ): Alumno[] {
-    // TODO
-    throw new Error("Implementar");
+return alumnos.filter(alumno => alumno.ciudad === ciudad);
 }
 
 // -----------------------------------------------------------------------------
@@ -170,11 +164,25 @@ export function obtenerAlumnosDeCiudad(
 //
 // Se recomienda reutilizar funciones anteriores.
 export function calcularPromedioPorCiudad(
-    alumnos: Alumno[],
-    ciudad: string
+alumnos: Alumno[],
+ciudad: string
 ): number {
-    // TODO
-    throw new Error("Implementar");
+  // 1. Reutilizamos la función del ejercicio anterior
+const alumnosDeLaCiudad = obtenerAlumnosDeCiudad(alumnos, ciudad);
+
+  // 2. Si no hay alumnos, devolvemos 0
+if (alumnosDeLaCiudad.length === 0) {
+    return 0;
+}
+
+  // 3. Sumamos las notas de esos alumnos
+const sumaNotas = alumnosDeLaCiudad.reduce(
+    (acumulador, alumno) => acumulador + alumno.nota,
+    0
+);
+
+  // 4. Calculamos y devolvemos el promedio
+return sumaNotas / alumnosDeLaCiudad.length;
 }
 
 // -----------------------------------------------------------------------------
