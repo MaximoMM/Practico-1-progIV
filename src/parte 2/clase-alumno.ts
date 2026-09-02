@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 // EJERCICIO 10 - interface Materia
 // -----------------------------------------------------------------------------
-// Se cambió de interface a type como pedía el TODO
 export type Materia = {
     codigo: number;
     nombre: string;
@@ -51,7 +50,6 @@ export class Alumno {
     // -------------------------------------------------------------------
 
     getNombreCompleto(): string {
-        // Usamos template literals (comillas invertidas) para concatenar más fácil
         return `${this.nombre} ${this.apellido}`;
     }
 
@@ -68,7 +66,6 @@ export class Alumno {
     }
 
     setEdad(edad: number): void {
-        // Validación: impide edades inválidas lanzando errores.
         if (edad < 0) {
             throw new Error("La edad no puede ser menor a 0");
         }
@@ -87,23 +84,17 @@ export class Alumno {
     }
 
     quitarMateria(codigo: number): Materia | undefined {
-        // Primero buscamos en qué posición (índice) está la materia
         const index = this.materias.findIndex(m => m.codigo === codigo);
-        
-        // Si la encontró, el índice será distinto de -1
+
         if (index !== -1) {
-            // El método .splice() elimina elementos del array y los devuelve. 
-            // Le decimos que arranque en 'index' y borre 1 elemento.
             const materiaQuitada = this.materias.splice(index, 1);
             return materiaQuitada[0];
         }
         
-        // Si no la encontró, devolvemos undefined
         return undefined;
     }
 
     estaInscripto(codigo: number): boolean {
-        // Reutilizamos el método .some() que vimos antes
         return this.materias.some(m => m.codigo === codigo);
     }
 
@@ -112,8 +103,6 @@ export class Alumno {
     }
 
     getMaterias(): Materia[] {
-        // Para devolver una copia sin exponer el arreglo original
-        // usamos el operador de propagación (spread operator) [...]
         return [...this.materias];
     }
 }
